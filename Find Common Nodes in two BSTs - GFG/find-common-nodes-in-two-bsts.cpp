@@ -85,39 +85,37 @@ Node* buildTree(string str)
 class Solution
 {
     public:
-    //Function to find the nodes that are common in both BST. 
-    
-    void preorder(Node* root,vector<int>& v){
-        if(!root)
-            return;
-        preorder(root->left,v);
-        v.push_back(root->data);
-        preorder(root->right,v);
-    }
-    void print(vector<int>& v1)
-    {
-        for(auto i : v1)
-            cout << i << " ";
-        cout << endl;
+    //Function to find the nodes that are common in both BST.
+    void pushAll(stack<Node*>& st, Node* root){
+        if(root){
+            st.push(root);
+            while(st.top()->left)
+                st.push(st.top()->left);
+        }
     }
     vector <int> findCommon(Node *root1, Node *root2)
     {
      //Your code here
-        vector<int> v1, v2, ans;
-        preorder(root1, v1);
-        preorder(root2, v2);
-        // print(v1);
-        // print(v2);
-        int i = 0, j = 0, n = v1.size(), m = v2.size();
-        while( i < n && j < m){
-            if(v1[i] == v2[j]){
-                ans.push_back(v1[i++]);
-                j++;
+        stack<Node*> st1, st2;
+        vector<int> ans;
+        pushAll(st1,root1),pushAll(st2,root2);
+        while(!st1.empty() && !st2.empty()){
+            if(st1.top()->data == st2.top()->data){
+                ans.push_back(st1.top()->data);
+                Node* s1right = st1.top()->right, *s2right = st2.top()->right;
+                st1.pop() , st2.pop();
+                pushAll(st1, s1right),pushAll(st2,s2right);
             }
-            else if(v1[i] > v2[j])
-                j++;
-            else
-                i++;
+            else if(st1.top()->data < st2.top()->data){
+                Node* s1right = st1.top()->right;
+                st1.pop();
+                pushAll(st1,s1right);
+            }
+            else{
+                Node* s2right = st2.top()->right;
+                st2.pop();
+                pushAll(st2,s2right);
+            }
         }
         return ans;
     }
