@@ -28,7 +28,7 @@ public:
         // Your code goes here.
         int m = grid.size(), n = grid[0].size();
         vector<int> parent;
-        parent.resize(59999, 0);
+        parent.resize(250001, 0);
         int par = 2,ans = 1;
         for(int i = 0; i < m ; i++){
             for(int j = 0 ;j < n ; j++){
