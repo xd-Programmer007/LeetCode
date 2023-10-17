@@ -13,28 +13,26 @@ public:
     {
         // code here
         vector<int> row, col;
-        for(int i = 0; i < N ; i++)
+        for(int i = 0; i < N ; i++){
             graph[i][i] = 1;
+        }
         
-        for(int i = 0; i < N ; i++)
-        {
-            for(int j = 0; j < N ; j++){
+        for(int i = 0; i < N; i++){
+            for(int j = 0;j < N ; j++){
                 if(graph[j][i] == 1)
                     col.push_back(j);
             }
-            for(int k = 0; k < N ;k++){
+            for(int k = 0; k < N; k++){
                 if(graph[i][k] == 1)
                     row.push_back(k);
             }
-        
-            for(int g = 0; g < col.size() ; g++){
-                for(int h = 0; h < row.size() ; h++){
-                    graph[col[g]][row[h]] = 1;
+            for(int i =0 ;i < col.size(); i++){
+                for(int j = 0; j< row.size(); j++){
+                    graph[col[i]][row[j]] = 1;
                 }
             }
             row.clear();
             col.clear();
-        
         }
         return graph;
     }
