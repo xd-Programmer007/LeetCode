@@ -1,0 +1,58 @@
+//{ Driver Code Starts
+// Initial Template for c++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    using vvi = vector<vector<int>>;using vi = vector<int>;
+    bool isPalin(string& s, int i, int j){
+        while(i < j){
+            if(s[i] != s[j]) return false;
+            i++, j--;
+        }
+        return true;
+    }
+    int solve(string& str, int i, int j, vvi& dp){
+        if(i == j || isPalin(str, i, j) )return 0;
+        if(dp[i][j] != -1)return dp[i][j];
+        int ans = INT_MAX;
+        string l = "";
+        for(int k = i; k <= j; k++){
+            l += str[k];
+            int potentialCut = 1;
+            if(isPalin(l, 0,l.size() - 1)){
+                potentialCut += solve(str, k+1, j, dp);
+                ans = min(ans, potentialCut);
+            }
+        }
+        return dp[i][j] = ans;
+    }
+    int palindromicPartition(string str)
+    {
+        // code here
+        int n = str.size();
+        vvi dp(n + 1,vi (n+1, -1));
+        return solve(str, 0, n - 1, dp);
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        
+        Solution ob;
+        cout<<ob.palindromicPartition(str)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
