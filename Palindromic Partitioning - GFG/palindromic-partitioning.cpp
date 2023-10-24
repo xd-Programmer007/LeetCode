@@ -9,37 +9,36 @@ using namespace std;
 
 class Solution{
 public:
-    using vvi = vector<vector<int>>;using vi = vector<int>;
-    bool isPalin(string& s, int i, int j){
-        while(i < j){
-            if(s[i] != s[j]) return false;
+    using vi = vector<int>; using vvi = vector<vi>;
+    bool isPalindrome(int i, int j, string& s){
+        while(i <= j){
+            if(s[i] != s[j])
+                return false;
             i++, j--;
         }
         return true;
     }
-    int solve(string& str, int i, int j, vvi& dp){
-        if(i == j || isPalin(str, i, j) )return 0;
-        if(dp[i][j] != -1)return dp[i][j];
-        int ans = INT_MAX;
-        string l = "";
-        for(int k = i; k <= j; k++){
-            l += str[k];
-            int potentialCut = 1;
-            if(isPalin(l, 0,l.size() - 1)){
-                potentialCut += solve(str, k+1, j, dp);
-                ans = min(ans, potentialCut);
+    int partition(int idx, string s, int n,vi& dp){
+        if(idx == n-1 || isPalindrome(idx , n-1, s))
+            return 0;
+        if(dp[idx] != -1) return dp[idx];
+        int min_cuts = n - 1 - idx;
+        for(int j = idx; j < n ; j++){
+            if(isPalindrome(idx, j, s)){
+                min_cuts = min(min_cuts , 1 + partition( j+1, s, n, dp));
             }
         }
-        return dp[i][j] = ans;
+        return dp[idx] = min_cuts;
     }
     int palindromicPartition(string str)
     {
         // code here
-        int n = str.size();
-        vvi dp(n + 1,vi (n+1, -1));
-        return solve(str, 0, n - 1, dp);
+        int n = str.length();
+        vi dp(n+1, -1);
+        return partition(0, str , n,dp);
     }
 };
+
 
 //{ Driver Code Starts.
 
