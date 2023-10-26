@@ -11,13 +11,14 @@ class Solution{
     //Function to find the sum of contiguous subarray with maximum sum.
     long long maxSubarraySum(int arr[], int n) {
   // Create a table to store the subproblem solutions.
-      int maxi  = *max_element(arr , arr+n);
-      if(maxi < 0) return maxi;
-      vector<long long> dp(n+1, 0);
+      int maxim  = *max_element(arr , arr+n);
+      if(maxim < 0) return maxim;
+      long long localMax = 0, maxi = 0;
       for(int i = n -1 ; i >= 0 ; i--){
-          dp[i] = max((long long ) arr[i], ((long long) arr[i]) + dp[i+1]);
+           localMax = max((long long ) arr[i], ((long long) arr[i]) + localMax);
+           maxi = max(maxi , localMax);
       }
-      return *max_element(dp.begin(), dp.end());
+      return maxi;
     }
 };
 
