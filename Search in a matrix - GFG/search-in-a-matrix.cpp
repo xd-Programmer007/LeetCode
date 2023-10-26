@@ -11,9 +11,11 @@ public:
 	{
 	    // your code here
 	    for(int i = 0; i < N ; i++){
-	        for(int j = 0; j < M ; j++){
-	            if(mat[i][j] == X)
-	                return true;
+	        if(X >= mat[i][0] && X <= mat[i][M-1]){
+    	        for(int j = 0; j < M ; j++){
+    	            if(mat[i][j] == X)
+    	                return true;
+    	        }
 	        }
 	    }
 	    return false;
