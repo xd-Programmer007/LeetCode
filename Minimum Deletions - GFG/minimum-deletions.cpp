@@ -8,21 +8,26 @@ using namespace std;
 
 class Solution{
   public:
-    int solve(string& s, int i , int j, vector<vector<int>>& dp){
-        while(i <= j){
-            if(dp[i][j]!=-1)return dp[i][j];
-            if(s[i] != s[j]){
-                return dp[i][j] = min(solve(s, i+1, j,dp), solve(s, i, j-1,dp)) + 1;
-            }
-            i++, j--;
-        }
-        return dp[i][j] = 0;
-    }
-    int minimumNumberOfDeletions(string s) { 
+    int minimumNumberOfDeletions(string S) { 
         // code here
-        vector<vector<int>> dp;
-        dp.resize(s.length() + 1, vector<int>(s.length() + 1, -1));
-        return solve(s, 0 , s.length() - 1,dp);
+                int n = S.size();
+        vector<int> dp(n, 0);
+        for (int i = n - 1; i >= 0; i--) {
+            int prev = 0; 
+            for (int j = i; j < n; j++) {
+                int temp = dp[j]; 
+                if (i == j) {
+                    dp[j] = 1;
+                } else if (S[i] == S[j]) {
+                    dp[j] = 2 + prev;
+                } else {
+                    dp[j] = max(dp[j], dp[j - 1]);
+                }
+                prev = temp;
+            }
+        }
+
+        return n - dp[n - 1];
     } 
 };
 
