@@ -13,21 +13,19 @@ class Solution{
     int minimumNumberOfDeletions(string s) { 
         // code here
         int n = s.length();
-        vvi dp( n , vector<int> (n , 0));
-        for(int i = 0; i < n; i++)
-            dp[i][i] = 1;
-            
+        vector<int> prev(n, 0), curr(n, 1);
         for(int k = 1 ; k < n ; k++){
-            int i = 0, j = k;
+            int i = 0, j = k, t = 0;
             while(i < n && j < n){
-                if(s[i] != s[j])
-                    dp[i][j] = max(dp[i+1][j], dp[i][j-1]);
+                if(s[i] == s[j])
+                    prev[t] = prev[t+1] + 2;
                 else
-                    dp[i][j] = dp[i+1][j-1]+2;
-                i++, j++;
+                    prev[t] = max(curr[t],curr[t+1]);
+                i++, j++,t++;
             }
+            swap(prev, curr);
         }
-        return n - dp[0][n-1];
+        return n - curr[0];
     } 
 };
 
